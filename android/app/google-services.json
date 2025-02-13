@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "276990450661",
+    "project_id": "dyslexiease",
+    "storage_bucket": "dyslexiease.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:276990450661:android:8a9c4ace51a4cf22a6ed0c",
+        "android_client_info": {
+          "package_name": "com.example.dyslexiease"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJWCJLsKgbEHMPQeYrmugF6ww6zPCFHUw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
