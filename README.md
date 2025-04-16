@@ -136,9 +136,9 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Author
 
-[Your Name]
-[Your Email]
-[Your GitHub Profile URL]
+Shinjini Nag
+shinjininag577@gmail.com
+github- @shinjini1202
 
 ## Acknowledgements
 
