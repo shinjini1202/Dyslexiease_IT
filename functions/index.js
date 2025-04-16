@@ -7,7 +7,7 @@ const app = express();
 app.use(cors({ origin: true }));
 app.use(express.json()); // Ensure JSON requests are parsed properly
 
-const GEMINI_API_KEY = "AIzaSyB-N8Jf_wJciQWc0AWlUOXv6Y-QDdfeI88";
+const GEMINI_API_KEY = dotenv.env['GEMINI_API_KEY'] ?? '';
 
 app.post("/gemini-process", async (req, res) => {
   try {
