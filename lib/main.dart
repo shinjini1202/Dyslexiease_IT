@@ -1,30 +1,39 @@
 import 'package:dyslexiease/firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'pdf_upload_screen.dart'; // Import your PDF upload screen
+import 'pdf_upload_screen.dart';
 import 'picture_upload_screen.dart';
-import 'paste_text_screen.dart'; // Import the paste text screen
+import 'paste_text_screen.dart';
 import 'text_display_screen.dart';
+import 'chat_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'auth_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp()); // Added const and parentheses
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SplashScreen(),
+      home: const SplashScreen(), // Changed: Always start with SplashScreen and added const
       routes: {
         '/home': (context) => HomePage(),
         '/pdf_upload': (context) => PDFUploadScreen(),
         '/picture_upload': (context) => PictureUploadScreen(),
-        '/paste_text': (context) => const PasteTextScreen(),// Add the route for PDF upload
+        '/paste_text': (context) => const PasteTextScreen(),
         '/text_display': (context) => const TextDisplayScreen(text: ''),
+        '/chat': (context) => ChatScreen(),
+        '/auth': (context) => const AuthScreen(),
       },
       theme: ThemeData(
         fontFamily: 'OpenDyslexic',
@@ -34,6 +43,7 @@ class MyApp extends StatelessWidget {
 }
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key}); // Added const key
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -42,18 +52,25 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateToHome();
+    _navigateToNextScreen();
   }
 
-  _navigateToHome() async {
-    await Future.delayed(Duration(seconds: 4));
-    Navigator.pushReplacementNamed(context, '/home');
+  _navigateToNextScreen() async { // Changed: New function
+    await Future.delayed(const Duration(seconds: 4));
+
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        Navigator.pushReplacementNamed(context, '/home'); // Go to home if logged in
+      } else {
+        Navigator.pushReplacementNamed(context, '/auth'); // Go to auth if not logged in
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF10244C),
+      backgroundColor: const Color(0xFF10244C),
       body: Stack(
         children: <Widget>[
           Center(
@@ -62,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 500,
             ),
           ),
-          Positioned(
+          const Positioned( // Added const
             bottom: 20,
             right: 20,
             child: Text(
@@ -80,10 +97,24 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key}); // Added const key
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF10244C),
+      backgroundColor: const Color(0xFF10244C),
+      appBar: AppBar( // Added AppBar for logout button
+        title: const Text('Dyslexiease'),
+        backgroundColor: const Color(0xFF10244C),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.pushReplacementNamed(context, '/auth');
+            },
+          ),
+        ],
+      ),
       body: Column(
         children: <Widget>[
           Expanded(
@@ -96,8 +127,8 @@ class HomePage extends StatelessWidget {
                     'assets/teacher.png',
                     height: 150,
                   ),
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const Text(
                     'Hey there Champ, how can I help you?',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -119,15 +150,15 @@ class HomePage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      _buildIconButton('assets/pdf.png', 'Scan PDF', context), // Pass context
-                      _buildIconButton('assets/camera.png', 'Scan Picture', context), // Pass context
+                      _buildIconButton('assets/pdf.png', 'Scan PDF', context),
+                      _buildIconButton('assets/camera.png', 'Scan Picture', context),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      _buildIconButton('assets/note.png', 'Paste Text', context), // Pass context
-                      _buildIconButton('assets/bot.png', 'Chat', context), // Pass context
+                      _buildIconButton('assets/note.png', 'Paste Text', context),
+                      _buildIconButton('assets/bot.png', 'Chat', context),
                     ],
                   ),
                 ],
@@ -139,17 +170,19 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildIconButton(String imagePath, String text, BuildContext context) { // Add BuildContext parameter
+  Widget _buildIconButton(String imagePath, String text, BuildContext context) {
     return Column(
       children: <Widget>[
         InkWell(
           onTap: () {
             if (text == 'Scan PDF') {
-              Navigator.pushNamed(context, '/pdf_upload'); // Navigate to PDF upload screen
+              Navigator.pushNamed(context, '/pdf_upload');
             } else if (text == 'Scan Picture') {
-              Navigator.pushNamed(context, '/picture_upload'); // Navigate to Picture Screen
-            } else if (text == 'Paste Text') { // Add this condition
-              Navigator.pushNamed(context, '/paste_text'); // Navigate to paste text screen
+              Navigator.pushNamed(context, '/picture_upload');
+            } else if (text == 'Paste Text') {
+              Navigator.pushNamed(context, '/paste_text');
+            } else if (text == 'Chat') {
+              Navigator.pushNamed(context, '/chat'); // ✅ Navigate to Chat Screen
             } else {
               print('Button tapped: $text');
             }
@@ -159,10 +192,10 @@ class HomePage extends StatelessWidget {
             height: 80,
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color(0xFF8FF4F9),
           ),
         ),
@@ -170,4 +203,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-

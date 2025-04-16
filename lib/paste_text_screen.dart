@@ -17,7 +17,7 @@ class _PasteTextScreenState extends State<PasteTextScreen> {
       backgroundColor: const Color(0xFF10244C),
       appBar: AppBar(
         title: const Text('Paste Text'),
-        backgroundColor: const Color(0xFF10244C),
+        backgroundColor: const Color(0xFFFFFFFF),
       ),
       body: Center( // Center the content
         child: Padding(
@@ -30,7 +30,7 @@ class _PasteTextScreenState extends State<PasteTextScreen> {
                 style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
                   hintText: 'Paste your text here',
-                  hintStyle: TextStyle(color: Colors.grey),
+                  hintStyle: TextStyle(color: Colors.white),
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (text) {

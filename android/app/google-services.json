@@ -12,7 +12,20 @@
           "package_name": "com.example.dyslexiease"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "276990450661-nrcv3k0t18nadk2c26pdff99i49lp6o9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dyslexiease",
+            "certificate_hash": "950224c6b87d28e178406cbb0addad74acb04989"
+          }
+        },
+        {
+          "client_id": "276990450661-ppe0impe6pcseh6m6h7mhe0lvns0j3pi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCJWCJLsKgbEHMPQeYrmugF6ww6zPCFHUw"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "276990450661-ppe0impe6pcseh6m6h7mhe0lvns0j3pi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "276990450661-9522e8rc221hvd580sd8mg9li4vocsr0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dyslexiease"
+              }
+            }
+          ]
         }
       }
     }

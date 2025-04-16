@@ -3,17 +3,8 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart'; // Import flutter_dotenv
 
-/// Default [FirebaseOptions] for use with your Firebase apps.
-///
-/// Example:
-/// ```dart
-/// import 'firebase_options.dart';
-/// // ...
-/// await Firebase.initializeApp(
-///   options: DefaultFirebaseOptions.currentPlatform,
-/// );
-/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -31,7 +22,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+              'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
         throw UnsupportedError(
@@ -40,49 +31,59 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB7oBXEMm7k92lLlrGpShgGCVPZMJncTMY',
-    appId: '1:276990450661:web:8d3f2efc0ffa25cea6ed0c',
-    messagingSenderId: '276990450661',
-    projectId: 'dyslexiease',
-    authDomain: 'dyslexiease.firebaseapp.com',
-    storageBucket: 'dyslexiease.firebasestorage.app',
-    measurementId: 'G-FZ2GD05RYW',
-  );
+  static FirebaseOptions get web {
+    return FirebaseOptions(
+      apiKey: dotenv.env['FIREBASE_API_KEY_WEB'] ?? '',
+      appId: dotenv.env['FIREBASE_APP_ID_WEB'] ?? '',
+      messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID'] ?? '',
+      projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
+      authDomain: dotenv.env['FIREBASE_AUTH_DOMAIN'] ?? '',
+      storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
+      measurementId: dotenv.env['FIREBASE_MEASUREMENT_ID_WEB'], // Can be nullable
+    );
+  }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCJWCJLsKgbEHMPQeYrmugF6ww6zPCFHUw',
-    appId: '1:276990450661:android:8a9c4ace51a4cf22a6ed0c',
-    messagingSenderId: '276990450661',
-    projectId: 'dyslexiease',
-    storageBucket: 'dyslexiease.firebasestorage.app',
-  );
+  static FirebaseOptions get android {
+    return FirebaseOptions(
+      apiKey: dotenv.env['FIREBASE_API_KEY_ANDROID'] ?? '',
+      appId: dotenv.env['FIREBASE_APP_ID_ANDROID'] ?? '',
+      messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID'] ?? '',
+      projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
+      storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
+    );
+  }
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyApSTVmcpaObutAFl1iYa53sXK8jM7qHKc',
-    appId: '1:276990450661:ios:aefc31a5e1d1fc88a6ed0c',
-    messagingSenderId: '276990450661',
-    projectId: 'dyslexiease',
-    storageBucket: 'dyslexiease.firebasestorage.app',
-    iosBundleId: 'com.example.dyslexiease',
-  );
+  static FirebaseOptions get ios {
+    return FirebaseOptions(
+      apiKey: dotenv.env['FIREBASE_API_KEY_IOS'] ?? '',
+      appId: dotenv.env['FIREBASE_APP_ID_IOS'] ?? '',
+      messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID'] ?? '',
+      projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
+      storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
+      iosBundleId: dotenv.env['FIREBASE_IOS_BUNDLE_ID'] ?? '',
+    );
+  }
 
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyApSTVmcpaObutAFl1iYa53sXK8jM7qHKc',
-    appId: '1:276990450661:ios:aefc31a5e1d1fc88a6ed0c',
-    messagingSenderId: '276990450661',
-    projectId: 'dyslexiease',
-    storageBucket: 'dyslexiease.firebasestorage.app',
-    iosBundleId: 'com.example.dyslexiease',
-  );
+  static FirebaseOptions get macos {
+    return FirebaseOptions(
+      apiKey: dotenv.env['FIREBASE_API_KEY_MACOS'] ?? '',
+      appId: dotenv.env['FIREBASE_APP_ID_IOS'] ?? '', // Assuming same as iOS
+      messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID'] ?? '',
+      projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
+      storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
+      iosBundleId: dotenv.env['FIREBASE_IOS_BUNDLE_ID'] ?? '', // Assuming same as iOS
+    );
+  }
 
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyB7oBXEMm7k92lLlrGpShgGCVPZMJncTMY',
-    appId: '1:276990450661:web:748baf16f7cf066aa6ed0c',
-    messagingSenderId: '276990450661',
-    projectId: 'dyslexiease',
-    authDomain: 'dyslexiease.firebaseapp.com',
-    storageBucket: 'dyslexiease.firebasestorage.app',
-    measurementId: 'G-BE2ZPBV6FQ',
-  );
+  static FirebaseOptions get windows {
+    return FirebaseOptions(
+      apiKey: dotenv.env['FIREBASE_API_KEY_WINDOWS'] ?? '',
+      appId: dotenv.env['FIREBASE_APP_ID_WEB'] ?? '', // Assuming same as Web
+      messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID'] ?? '',
+      projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
+      authDomain: dotenv.env['FIREBASE_AUTH_DOMAIN'] ?? '',
+      storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
+      measurementId: dotenv.env['FIREBASE_MEASUREMENT_ID_WINDOWS'], // Can be nullable
+    );
+  }
 }
